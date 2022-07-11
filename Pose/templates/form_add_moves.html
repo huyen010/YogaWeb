@@ -1,0 +1,96 @@
+{% extends 'base_template.html' %}
+
+{% block page_title %}
+
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+
+<section class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Add new moves</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form action="/pose/addPose/" class="form-contact" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        
+                                {% comment %} Display Messages {% endcomment %}
+                                {% if messages %}
+                                <div class="form-group">
+                                <div class="col-12">
+                                    {% for message in messages %}
+                                    {% if message.tags == "error" %}
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                        {{ message }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                    {% elif message.tags == "success" %}
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                        {{ message }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                </div>
+                                {% endif %}
+                            
+
+                        <div class="card-body">
+                            <div class="form-group">
+                                {% csrf_token %}
+                                <label>Name</label>
+                                <input type="text" class="form-control" name="name"><br>
+                                <label>Img 1</label>
+                                <input type="file" name="image1"><br>
+                                <label>Img 2</label>
+                                <input type="file" name="image2"><br>   
+                                <label>Img 3</label>
+                                <input type="file" name="image3"><br>   
+                                <label>Img 4</label>
+                                <input type="file" name="image4"><br>   
+                                <label>Img 5</label>
+                                <input type="file" name="image5"><br>   
+                                <label>Img 6</label>
+                                <input type="file" name="image6"><br>   
+                                <label>Img 7</label>
+                                <input type="file" name="image7"><br>   
+                                <label>Img 8</label>
+                                <input type="file" name="image8"><br>   
+                                <label>Img 9</label>
+                                <input type="file" name="image9"><br>   
+                                <label>Img 10</label>
+                                <input type="file" name="image10"><br>                                   
+                            </div>
+
+                        </div>
+                        <!-- /.card-body -->
+
+                        <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Add new</button>
+                        </div>
+                    </form>
+                    </div>
+                    <!-- /.card -->
+
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+      </section>
+
+  {% endblock main_content %}

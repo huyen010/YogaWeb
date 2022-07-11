@@ -1,0 +1,14 @@
+{% if list != null%}
+    {% for l in list %}
+    <div class="card" style="width: 18rem;">
+            <img src="14-0.png" class="card-img-top" alt="">
+            <div class="card-body">
+                <h5 class="card-title">"{{ l.name }}"</h5>
+                <p class="card-text text-truncate">
+                    "{{ l.advantage}}"
+                </p>
+                <p class="card-text">Điểm số: </p>
+            </div>
+        </div>
+   {% endfor %}
+{%endif%}

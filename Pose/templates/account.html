@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">   
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Yoga With Me</title>  
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico'%}" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="{% static 'images/apple-touch-icon.png'%}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/versions.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css'%}">
+    <script src="{%static 'js/modernizer.js' %}"></script>
+</head>
+
+<body class="host_version">
+
+    {%include "header.html" %}
+    <div class="bg-light" style="padding: 15px;">
+        <div id="account-tab" role="tabpanel">
+            <h4>THÔNG TIN TÀI KHOẢN</h4>
+            <form action="/user/update-id={{userid}}" method="POST"> {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6" style="margin-top: 15px;">
+                        <input type="text" id="last_name" name="last_name" value="{{infoUser.last_name}}" class="form-control" placeholder="Họ">
+                    </div>
+                    <div class="col-md-6" style="margin-top: 15px;">
+                        <input type="text" id="first_name" name="first_name" value="{{infoUser.first_name}}" class="form-control" placeholder="Tên">
+                    </div>
+                    <div class="col-md-6" style="margin-top: 15px;">
+                        <input type="date" id="date" name="date" value="{{infoUser.date|date:'Y-m-d'}}" class="form-control" placeholder="Ngày sinh">
+                    </div>
+                    <div class="col-md-6" style="margin-top: 15px;">
+                        <input type="text" id="email" name="email" value="{{infoUser.email}}" class="form-control" placeholder="Email">
+                    </div>
+                    <div class="col-md-6" style="margin-top: 15px;">
+                        <input type="text" id="phone" name="phone" value="{{infoUser.phone}}" class="form-control" placeholder="Số điện thoại">
+                    </div>
+                    <div class="col-md-6" style="margin-top: 15px;">
+                        <input type="text" id="address" name="address" value="{{infoUser.address}}" class="form-control" placeholder="Địa chỉ">
+                    </div>
+                    <div class="col-md-6" style="margin-top: 15px;">
+                        <button type="submit" class="btn btn-info btn-changes">CẬP NHẬT TÀI KHOẢN</button>
+                        <br>
+                    </div>
+                </div>
+            </form>
+            <h4 style="margin-top: 15px;">ĐỔI MẬT KHẨU</h4>
+            <form action="/user/update-password-id={{userid}}" method="POST"> {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-12" style="margin-top: 15px;">
+                        <input type="password" name="password" class="form-control" placeholder="Mật khẩu hiện tại">
+                    </div>
+                    <div class="col-md-6" style="margin-top: 15px;">
+                        <input type="password" name="newPassword" class="form-control" placeholder="Mật khẩu mới">
+                    </div>
+                    <div class="col-md-6" style="margin-top: 15px;">
+                        <input type="password" name="confirmPassword" class="form-control" placeholder="Xác nhận mật khẩu">
+                    </div>
+                    <div class="col-md-12" style="margin-top: 15px;">
+                        <button type="submit" class="btn btn-info btn-changes">ĐỔI MẬT KHẨU</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% include "footer.html" %}
+</body>
+</html>

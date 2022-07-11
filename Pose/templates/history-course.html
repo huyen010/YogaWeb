@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+    <!-- Basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">   
+   
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+     <!-- Site Metas -->
+    <title>Yoga With Me</title>  
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico'%}" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="{% static 'images/apple-touch-icon.png'%}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- ALL VERSION CSS -->
+    <link rel="stylesheet" href="{% static 'css/versions.css' %}">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/custom.css'%}">
+
+    <!-- Modernizer for Portfolio -->
+    <script src="{%static 'js/modernizer.js' %}"></script>
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+
+</head>
+<body class="host_version">
+  {%include "header.html" %}
+  <div id="overviews" class="section wb">
+    <div class="container">
+        <div class="section-title row text-center">
+            <div class="col-md-8 offset-md-2">
+                <h3>Course History</h3>
+                <p class="lead">" Yoga không chỉ đơn giản là quá trình kết nối tâm hồn, trí não và cơ thể để cải thiện bản thân, nó còn là quá trình của sự tự hiểu rõ và chấp nhận cơ thể, con người của chính mình."- Debasish Mridha.</p>
+            </div>
+        </div><!-- end title -->
+
+        <hr class="invis"> 
+        <div class="row"> 
+            {% if list != null%}
+            {% for l in list %}
+            <div class="col-lg-4 col-md-6 col-12">
+                <div class="blog-item">
+                    <div class="image-blog">
+                        <img src="{{l.idPose.image1.url}}" alt="" class="img-fluid" style="height:200px">
+                    </div>
+                    <div class="blog-title">
+                        <h2><a href="#" title="">{{ l.idPose.name|upper }}</a></h2>
+                    </div>
+                    <div class="blog-desc text-truncate">
+                        <p>{{ l.idPose.advantage}} </p>
+                    </div>
+                    <div class="blog-button">
+                        <a class="hover-btn-new orange" href="/pose/detail/{{l.idPose.idPose}}"><span>Chi tiết<span></a>
+                        <a class="hover-btn-new orange" href="#"><span>Thực hành<span></a>
+                    </div>
+                </div>
+            </div><!-- end col -->
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div><!-- end container -->
+</div><!-- end section -->
+
+ {% include "footer.html" %}
+</body>
+</html>

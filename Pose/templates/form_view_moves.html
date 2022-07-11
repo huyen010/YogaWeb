@@ -1,0 +1,113 @@
+{% extends 'base_template.html' %}
+
+{% block page_title %}
+
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+
+<section class="content">
+        <div class="container-fluid">
+
+
+            {% if messages %}
+                                <div class="form-group">
+                                <div class="col-12">
+                                    {% for message in messages %}
+                                    {% if message.tags == "error" %}
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                        {{ message }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                    {% elif message.tags == "success" %}
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                        {{ message }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                </div>
+                                {% endif %}
+
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Moves</h3>
+
+                            <div class="card-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                                <div class="input-group-append">
+                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-bordered">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <td>ID</td>
+                                    <td>Tên động tác</td>
+                                    <td>Số lần tập</td>
+                                    <td>Hình 1</td>
+                                    <td>Hình 2</td>
+                                    <td>Hình 3</td>
+                                    <td>Hình 4</td>
+                                    <td>Hình 5</td>
+                                    <td>Hình 6</td>
+                                    <td>Hình 7</td>
+                                    <td>Hình 8</td>
+                                    <td>Hình 9</td>
+                                    <td>Hình 10</td>
+                                    <td>Sửa</td>
+                                    <td>xoá</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% for pose in pose_list%}
+                                    <tr>
+                                        <td>{{pose.idPose}}</td>
+                                        <td>{{pose.name}}</td>
+                                        <td>{{pose.times}}</td>
+                                        <td><img src="{{pose.image1.url}}"  alt="" class="img" style="width: 80px; height: 80px;"></td>
+                                        <td><img src="{{pose.image2.url}}"  alt="" class="img" style="width: 80px; height: 80px;"></td>
+                                        <td><img src="{{pose.image3.url}}"  alt="" class="img" style="width: 80px; height: 80px;"></td>
+                                        <td><img src="{{pose.image4.url}}"  alt="" class="img" style="width: 80px; height: 80px;"></td>
+                                        <td><img src="{{pose.image5.url}}"  alt="" class="img" style="width: 80px; height: 80px;"></td>
+                                        <td><img src="{{pose.image6.url}}"  alt="" class="img" style="width: 80px; height: 80px;"></td>
+                                        <td><img src="{{pose.image7.url}}"  alt="" class="img" style="width: 80px; height: 80px;"></td>
+                                        <td><img src="{{pose.image8.url}}"  alt="" class="img" style="width: 80px; height: 80px;"></td>
+                                        <td><img src="{{pose.image9.url}}"  alt="" class="img" style="width: 80px; height: 80px;"></td>
+                                        <td><img src="{{pose.image10.url}}"  alt="" class="img" style="width: 80px; height: 80px;"></td>
+                                        <td><a href="/pose/editPoseForm/{{pose.idPose}}" class="bg-warning btn btn-primary">Sửa</a></td>
+                                        <td><a href="/pose/delete/{{pose.idPose}}" class="bg-danger btn btn-primary">Xóa</a></td>    
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                                
+                            </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                        </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+      </section>
+
+  {% endblock main_content %}

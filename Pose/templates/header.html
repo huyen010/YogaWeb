@@ -1,0 +1,45 @@
+<!-- LOADER -->
+{% load static %}
+<div id="preloader">
+    <div class="loader-container">
+        <div class="progress-br float shadow">
+            <div class="progress__item"></div>
+        </div>
+    </div>
+</div>
+<!-- END LOADER -->	
+
+<!-- Start header -->
+<header class="top-navbar">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-host" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbars-host">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="/user/userhome">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/user/userhome">Course</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/user/my-course">History</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/user/account-view">Account</a></li>
+                    {%if 'username' not in request.session%}
+                        <li class="nav-item"><a class="nav-link" href="#">Admin</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/user/login">Login</a></li>
+                    {%else%}
+                        <li class="nav-item"><a class="nav-link" href="/user/adminhome">Admin</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/user/logout">Logout</a></li>
+                        
+                    {%endif%}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<!-- End header -->
+<div class="all-title-box" style="background: url('{% static 'images/background1.jpg' %}')no-repeat;background-size: cover;">
+    <div class="container text-center">
+        <h1>Yoga with me<span class="m_1">Yoga mang bạn hòa mình vào thiên nhiên và dạy cho bạn cách tò mò một cách hào hứng về thế giới tâm hồn.</span></h1>
+    </div>
+</div>

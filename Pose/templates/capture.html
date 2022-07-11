@@ -1,0 +1,210 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="start-camera">Start Camera</button>
+<video id="video" width="320" height="240" autoplay></video>
+<button id="click-photo">Click Photo</button>
+<canvas id="canvas" width="320" height="240"></canvas>
+
+<script>
+    let camera_button = document.querySelector("#start-camera");
+let video = document.querySelector("#video");
+let click_button = document.querySelector("#click-photo");
+let canvas = document.querySelector("#canvas");
+
+camera_button.addEventListener('click', async function() {
+   	let stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+	video.srcObject = stream;
+});
+
+click_button.addEventListener('click', function() {
+   	canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+   	let image_data_url = canvas.toDataURL('image/jpeg');
+   	console.log(image_data_url);
+});
+
+</script>
+</body>
+</html> {% endcomment %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <form>
+    <div> 
+      <label for="pose">Choose a pose:</label>
+      <select name="pose" id="pose">
+        {% for pose in post_list%}
+        <option value="{{pose.pose_id}}">{{pose.name}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">                                
+      <video id="video" autoplay ></video>                               
+      <canvas id="canvas"></canvas>                                
+    </div>
+    
+    <button id="startbutton1" class="btn btn-outline-secondary btn-sm">Take Photo</button>
+    <button type="button" id="submit" class="btn btn-primary">Submit</button>
+  </form>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+
+    var filename = Math.random().toString(36).substring(2,7) + ".jpeg";
+    var width = 320;    
+    var height = 0;    
+    var streaming = false;  
+    var video = null;
+    var canvas = null;
+    var photo = null;
+    var startbutton1 = null;
+    var imageurl = null;
+    function startup() {
+      video = document.getElementById('video');
+      canvas = document.getElementById('canvas');
+      photo = document.getElementById('photo');
+      startbutton1 = document.getElementById('startbutton1');
+      pose = document.getElementById('pose').value;
+      navigator.mediaDevices.getUserMedia({video: true, audio: false})
+      .then(function(stream) {
+        video.srcObject = stream;
+        video.play();
+      })
+      .catch(function(err) {
+        console.log("An error occurred: " + err);
+      });
+  
+      video.addEventListener('canplay', function(ev){
+        if (!streaming) {
+          height = video.videoHeight / (video.videoWidth/width);
+  
+ 
+          if (isNaN(height)) {
+            height = width / (4/3);
+          }
+  
+          video.setAttribute('width', width);
+          video.setAttribute('height', height);
+          canvas.setAttribute('width', width);
+          canvas.setAttribute('height', height);
+          streaming = true;
+        }
+      }, false);
+  
+      startbutton1.addEventListener('click', function(ev){
+        setTimeout(() => { takepicture(); }, 5000);
+        
+        ev.preventDefault();
+      }, false);
+  
+      submit.addEventListener('click', function(ev){
+        save(imageurl);
+        ev.preventDefault();
+      }, false);
+      //clearphoto();
+    }
+    
+    function clearphoto() {
+      var context = canvas.getContext('2d');
+      context.fillStyle = "#AAA";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+  
+      var data = canvas.toDataURL('image/png');
+      photo.setAttribute('src', data);
+    }
+  
+    function dataURLtoBlob(dataurl) {
+      var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+          bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+      while(n--){
+          u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new Blob([u8arr], {type:mime});
+  }
+
+
+    function takepicture() {
+      var context = canvas.getContext('2d');
+      if (width && height) {
+        canvas.width = width;
+        canvas.height = height;
+        context.drawImage(video, 0, 0, width, height);
+  
+        var data = canvas.toDataURL('image/png');
+        imageurl = data;
+        console.log(data);
+        console.log(imageurl);
+        save(data);
+        photo.setAttribute('src', data);
+      } else {
+        //clearphoto();
+      }
+      return data;
+    }
+    window.addEventListener('load', startup, false);
+
+    function save(url){
+      var blob = dataURLtoBlob(url);
+      console.log(blob);
+      var myFile = new File([blob], 'image.jpeg', {
+        type: blob.type,
+    });
+      var formData = new FormData();
+        formData.append('pose', pose)
+        formData.append('image', myFile, filename)
+        formData.append('action', 'create-post')
+
+        formData.append('csrfmiddlewaretoken', '{{ csrf_token }}')
+          $.ajax({
+              type: 'POST',
+              url: '{% url "home" %}',
+              data: formData,
+              cache: false,
+              processData: false,
+              contentType: false,
+              enctype: 'multipart/form-data',
+              success: function (){
+                  alert('The post has been created!')
+              },
+              error: function(xhr, errmsg, err) {
+                  console.log(xhr.status + ":" + xhr.responseText)
+              }
+          })
+    }
+   
+     /* $(document).on('click', '#submit', function(e) {
+        formData.append('title', $('#title').val())
+        formData.append('description', $('#description').val())
+        formData.append('image',  $('#image')[0].files[0])
+        formData.append('action', 'create-post')
+        formData.append('csrfmiddlewaretoken', '{{ csrf_token }}')
+          $.ajax({
+              type: 'POST',
+              url: '{% url "home" %}',
+              data: formData,
+              cache: false,
+              processData: false,
+              contentType: false,
+              enctype: 'multipart/form-data',
+              success: function (){
+                  alert('The post has been created!')
+              },
+              error: function(xhr, errmsg, err) {
+                  console.log(xhr.status + ":" + xhr.responseText)
+              }
+          })
+      })*/
+</script>
+</body>
+</html>
